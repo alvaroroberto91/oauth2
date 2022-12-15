@@ -3,11 +3,15 @@ const clientSchema = require('./clientModel');
 const { compare } = require('bcrypt');
 
 exports.TokenGenerator = async (request, response) => {
-    try {
-      const client = request.body
+  try {
+    const client = request.body
       const findClient = await clientSchema.findOne({client_id: client.client_id});
       if(!findClient) {
         throw new Error("Client ID does not exists!");
+      }
+
+      if(findClient.grant_type !== client.grant_type) {
+        throw new Error("Grant Type is Invalid!");
       }
     
       const secretMatches = await compare(client.client_secret, findClient.client_secret);

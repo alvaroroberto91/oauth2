@@ -10,6 +10,9 @@ const Client = new Schema({
   },
   client_secret: {
     type: String
+  },
+  grant_type: {
+    type: String
   }
 
 });

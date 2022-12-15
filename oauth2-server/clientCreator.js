@@ -4,19 +4,26 @@ const { createHmac } = require('node:crypto');
 
 
 exports.ClientCreator = async (request, response) => {
-  const client = request.body;
-  const secret = (client.name + "secret");
-  const encryptedSecret = createHmac('sha256', secret).digest('hex');
-  const hashSecret = await hash(encryptedSecret, 10);
+  try{
+    const client = request.body;
 
-  const newClient = await clientSchema.create({
-    name: client.client_name,
-    client_id: client.client_id,
-    client_secret: hashSecret
-  });
+    const secret = (client.name + "secret");
+    const encryptedSecret = createHmac('sha256', secret).digest('hex');    
+    const hashSecret = await hash(encryptedSecret, 10);
+  
+    const newClient = await clientSchema.create({
+      name: client.client_name,
+      client_id: client.client_id,
+      client_secret: hashSecret,
+      grant_type: client.grant_type
+    });
+  
+    return response.json({
+      client_id: newClient.client_id,
+      client_secret: encryptedSecret 
+    });
 
-  return response.json({
-    client_id: newClient.client_id,
-    client_secret: encryptedSecret 
-  });
+  }catch (error) {
+    return response.status(400).send(error.message);
+  }
 }
