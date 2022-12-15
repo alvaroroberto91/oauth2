@@ -1,9 +1,43 @@
-1 - Criar o usuário na base - OK
-2 - Gerar client_secret criptogradada - OK
-3 - Gerar token a partir dos client_id e client_secret - OK
-4 - Adicionar variáveis de ambiente
-5 - Criar Chave Secreta para adicionar à geração do client_secret criptografado
-6 - Adicionar Chave Secreta nas variáveis de ambiente para utilização na geração do client_secret
-7 - Criar Chave Secreta para adicionar à geração do token de acesso
-8 - Adicionar Chave Secreta nas variaáveis de ambiente para utilização na geração do token de acesso
-9 - Criar lógica para salvar token de acesso
+# OAuth2 API
+> API that generates authentication tokens following the OAuth2 protocol
+
+
+## Routes
+```sh
+/register-client POST
+Generate access credentials
+
+Payload:
+
+"client_name": "Client Name",
+"client_id": "Client Id",
+"grant_type": "Concession Type"
+
+Response:
+{
+    "client_id": "test-client",
+    "client_secret": "random-client-hex-secret"
+}
+```
+
+```sh
+/access-token POST
+Generate access-token
+
+Content-Type: application/x-www-form-urlencoded
+
+Parameters:
+client_id
+client_secret
+grant_type
+
+Response:
+
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnQiOnsiY2xpZW50X2lkIjoidGVzdC1jbGllbnQiLCJjbGllbnRfc2VjcmV0IjoiZTVjYzk1MjMwYmVjY2IyMzBjODFhMjZkMDU0YWY3NGJhZjQ0MmYyYTRiMmY4YzYxMGI0MmU0MjAxOTk1ZDRmYyIsImdyYW50X3R5cGUiOiJjbGllbnRfY3JlZGVudGlhbHMifSwiaWF0IjoxNjcxMDczMTU0LCJleHAiOjE2NzEwNzQwNTQsInN1YiI6IlRlc3QgQ2xpZW50In0.T4RCH5M78Tj79weBQPVuWLfqCHWH89O8QbbMtmTrYyU",
+    "expires_in": 900,
+    "type": "Bearer"
+}
+
+```
+
