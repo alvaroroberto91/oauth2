@@ -4,7 +4,8 @@
 
 ## Routes
 ```sh
-/register-client POST
+POST
+/register-client
 Generate access credentials
 
 Payload:
@@ -21,7 +22,8 @@ Response:
 ```
 
 ```sh
-/access-token POST
+POST
+/access-token
 Generate access-token
 
 Content-Type: application/x-www-form-urlencoded
