@@ -6,7 +6,7 @@ To generate the SECRET used by the sign method, run the following command in the
 
 ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
 
-PS: Don't use a passphrase
+PS: Do not use a passphrase
 ```
 ## Routes
 ```sh
