@@ -1,12 +1,15 @@
 const { sign } = require('jsonwebtoken');
 const clientSchema = require('./clientModel');
 const { compare } = require('bcrypt');
+const { SecretGenerate } = require('./utils/secretGenarete');
+
 
 exports.TokenGenerator = async (request, response) => {
   try {
+
     const client = request.body
     const savedClient = await clientSchema.findOne({client_id: client.client_id});
-    
+
     if(!savedClient) {
       throw new Error("Client ID does not exists!");
     }
@@ -17,12 +20,19 @@ exports.TokenGenerator = async (request, response) => {
   
     const secretMatches = await compare(client.client_secret, savedClient.client_secret);
     if(!secretMatches) {
-      throw new Error("Invalid Client Secret");
+      throw new Error("Invalid Client Secret!");
     }
-  
-    const token = sign({client}, "019acc25a4e242bb55ad489832ada12d", {
-      subject: savedClient.name,
-      expiresIn: "900s"
+
+    const payload = {
+      "iss": "https://integration-service-rededor-brazil.eva.bot/independentMessage",
+      "aud": "Send Independent Message",
+      "sub": savedClient.name,
+      "client_id": savedClient.client_id
+    }
+    const PRIVATE_KEY = await SecretGenerate();
+    const token = sign({payload}, PRIVATE_KEY, {
+      expiresIn: '900s',
+      algorithm: 'RS256'
     });
   
     return response.json({
