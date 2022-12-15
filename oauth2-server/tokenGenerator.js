@@ -5,22 +5,22 @@ const { compare } = require('bcrypt');
 exports.TokenGenerator = async (request, response) => {
   try {
     const client = request.body
-      const findClient = await clientSchema.findOne({client_id: client.client_id});
-      if(!findClient) {
+      const savedClient = await clientSchema.findOne({client_id: client.client_id});
+      if(!savedClient) {
         throw new Error("Client ID does not exists!");
       }
 
-      if(findClient.grant_type !== client.grant_type) {
+      if(savedClient.grant_type !== client.grant_type) {
         throw new Error("Grant Type is Invalid!");
       }
     
-      const secretMatches = await compare(client.client_secret, findClient.client_secret);
+      const secretMatches = await compare(client.client_secret, savedClient.client_secret);
       if(!secretMatches) {
         throw new Error("Invalid Client Secret");
       }
     
       const token = sign({client}, "019acc25a4e242bb55ad489832ada12d", {
-        subject: findClient.name,
+        subject: savedClient.name,
         expiresIn: "900s"
       });
     
