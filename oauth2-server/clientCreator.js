@@ -6,8 +6,8 @@ const { createHmac } = require('node:crypto');
 exports.ClientCreator = async (request, response) => {
   try{
     const client = request.body;
-
-    const secret = (client.name + "secret");
+    
+    const secret = (client.client_name + "secret");    
     const encryptedSecret = createHmac('sha256', secret).digest('hex');    
     const hashSecret = await hash(encryptedSecret, 10);
   
