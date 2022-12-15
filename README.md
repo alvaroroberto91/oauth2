@@ -10,14 +10,14 @@ Generate access credentials
 
 Payload:
 
-"client_name": "Client Name",
-"client_id": "Client Id",
-"grant_type": "Concession Type"
+"client_name": "Test Client",
+"client_id": "test-client",
+"grant_type": "client_credentials"
 
 Response:
 {
     "client_id": "test-client",
-    "client_secret": "random-client-hex-secret"
+    "client_secret": "e5cc95230beccb230c81a26d054af74baf442f2a4b2f8c610b42e4201995d4fc"
 }
 ```
 
@@ -29,9 +29,9 @@ Generate access-token
 Content-Type: application/x-www-form-urlencoded
 
 Parameters:
-client_id
-client_secret
-grant_type
+client_id: test-client
+client_secret: e5cc95230beccb230c81a26d054af74baf442f2a4b2f8c610b42e4201995d4fc
+grant_type: client_credentials
 
 Response:
 
