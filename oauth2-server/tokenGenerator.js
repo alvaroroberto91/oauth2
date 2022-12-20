@@ -1,7 +1,7 @@
 const { sign } = require('jsonwebtoken');
 const clientSchema = require('./clientModel');
 const { compare } = require('bcrypt');
-const { SecretGenerate } = require('./utils/secretGenarete');
+const { SecretGenerate } = require('./utils/secretGenerate/secretGenerate');
 
 
 exports.TokenGenerator = async (request, response) => {
@@ -24,12 +24,14 @@ exports.TokenGenerator = async (request, response) => {
     }
 
     const payload = {
-      "iss": "https://integration-service-rededor-brazil.eva.bot/independentMessage",
+      "iss": "Independent Send Message Module - Eva Bot",
       "aud": "Send Independent Message",
       "sub": savedClient.name,
+      "typ": "Bearer",
       "client_id": savedClient.client_id
     }
     const PRIVATE_KEY = await SecretGenerate();
+
     const token = sign({payload}, PRIVATE_KEY, {
       expiresIn: '900s',
       algorithm: 'RS256'
@@ -38,7 +40,7 @@ exports.TokenGenerator = async (request, response) => {
     return response.json({
       access_token: token,
       expires_in: 900,
-      type: "Bearer"
+      token_type: "Bearer"
     });
 
     }catch (error) {
