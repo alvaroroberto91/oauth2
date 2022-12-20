@@ -1,7 +1,13 @@
 # OAuth2 API
 > API that generates authentication tokens following the OAuth2 protocol
 
+```sh
+To generate the SECRET used by the sign method, run the following command in the root of the project:
 
+ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
+
+PS: Do not use a passphrase
+```
 ## Routes
 ```sh
 POST
