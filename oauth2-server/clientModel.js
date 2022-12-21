@@ -4,15 +4,19 @@ const Schema = mongoose.Schema;
 const Client = new Schema({
   name: {
     type: String,
+    required: true
   },
   client_id: {
     type: String,
+    required: true
   },
   client_secret: {
-    type: String
+    type: String,
+    required: true
   },
   grant_type: {
-    type: String
+    type: String,
+    required: true
   }
 
 });
